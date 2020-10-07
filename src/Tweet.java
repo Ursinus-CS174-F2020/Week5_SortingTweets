@@ -98,6 +98,9 @@ public class Tweet {
                 }
             }
         }
+        // Pull out all of the words, and copy each over with its
+        // counts to a word object.  Put all of the word objects in an
+        // array and sort them by their count using the comparator in Word
         ArrayList<String> allWords = new ArrayList<>(wordCounts.keySet());
         Word[] words = new Word[allWords.size()];
         for (int i = 0; i < allWords.size(); i++) {

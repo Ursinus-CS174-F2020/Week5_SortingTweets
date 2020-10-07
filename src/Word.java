@@ -18,6 +18,7 @@ public class Word implements Comparable {
    @Override
    public int compareTo(Object otherObj) {
        Word other = (Word)otherObj;
+       // This will sort in descending order
        return other.counts-counts;
    }
 }
