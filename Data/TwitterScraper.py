@@ -56,7 +56,7 @@ MONTHS = {'Jan':'01', 'Feb':'02', 'Mar':'03', 'Apr':'04', 'May':'05', 'Jun':'06'
 def make_tweet_text():
     fout = open("tweets.txt", "w")
     tweets = json.load(open("latesttweets.json", "r"))
-    tweets = tweets[0:2123]
+    tweets = [tweets[i] for i in np.random.permutation(len(tweets))]
     for idx in np.random.permutation(len(tweets)):
         tweet = tweets[idx]
         date = tweet['created_at']
