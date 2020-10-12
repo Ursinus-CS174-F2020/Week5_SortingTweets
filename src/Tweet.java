@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class Tweet {
+public class Tweet implements Comparable {
     private final String date;
     private final String time;
     private final String text;
@@ -115,6 +115,78 @@ public class Tweet {
     
     public static void main(String[] args) {
         Tweet[] tweets = Tweet.getAllTweets();
-        printMostUsedWords(tweets);
+        //printMostUsedWords(tweets);
+        Arrays.sort(tweets);
+        for (int i = 0; i < 10; i++) {
+            int[] arr = tweets[i].getDateComponents();
+            System.out.println(tweets[i]);
+        }
+    }
+    
+    
+
+    
+    public int compareTo(Object otherObj) {
+        Tweet other = (Tweet)otherObj;
+        // date, YYYY/MM/DD
+        // time: HH:MM:SS
+        // Ex) 2020/01/03
+        //     2020/11/01
+        int toReturn = date.compareTo(other.date);
+        if (toReturn == 0) {
+            toReturn = time.compareTo(other.time);
+        }
+        return toReturn;
+    }
+    
+    
+    public int[] getDateComponents() {
+        int[] dateParts = new int[6];
+        String[] stringParts = date.split("/");
+        // Year/Month/Day
+        for (int i = 0; i < 3; i++) {
+            dateParts[i] = Integer.parseInt(stringParts[i]);
+        }
+        // Hour:Minute:Second
+        stringParts = time.split(":");
+        for (int i = 0; i < 3; i++) {
+            dateParts[i+3] = Integer.parseInt(stringParts[i]);
+        }
+        return dateParts;
+    }
+    
+    public int compareToDateParts(Object otherObj) {
+        Tweet other = (Tweet)otherObj;
+        // Each tweet has date string and time string
+        int[] d1 = this.getDateComponents();
+        int[] d2 = other.getDateComponents();
+        int toReturn = 0;
+        boolean brokenTie = false;
+        for (int i = 0; i < d1.length && !brokenTie; i++) {
+            int diff = d1[i] - d2[i];
+            if (Math.abs(diff) != 0) {
+                toReturn = diff;
+                brokenTie = true;
+            }
+        }
+        return toReturn;
+    }
+    
+    public int compareToRetweets(Object otherObj) {
+        Tweet other = (Tweet)otherObj;
+        return other.retweets - this.retweets;
+    }
+    
+    
+
+    /**
+     * Demo of the split method
+     */
+    public static void splitTest() {
+        String s = "Hello everyone, and congrats to Brenden on his job";
+        String[] components = s.split(" ");
+        for (int i = 0; i < components.length; i++) {
+            System.out.println(components[i]);
+        }
     }
 }
